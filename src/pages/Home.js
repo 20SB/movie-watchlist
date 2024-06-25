@@ -6,6 +6,7 @@ import { deleteMovie, toggleWatched } from "../redux/moviesSlice";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+    console.log("rendering home");
     const movies = useSelector((state) => state.movies.movies);
     const dispatch = useDispatch();
 
@@ -42,6 +43,9 @@ const Home = () => {
                             >
                                 Delete
                             </Button>
+                            <Link to={`/movie/${movie.id}`}>
+                                <Button>Details</Button>
+                            </Link>
                         </HStack>
                     </Box>
                 ))}

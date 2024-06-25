@@ -1,17 +1,27 @@
 // src/App.js
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import MovieForm from "./pages/MovieForm";
 import MovieDetails from "./pages/MovieDetails";
+import RateReviewForm from "./pages/RateReviewForm";
+import { useDispatch } from "react-redux";
+import { fetchMovies } from "./redux/moviesSlice";
 
 const App = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchMovies());
+    }, [dispatch]);
+
     return (
         <Routes>
-            <Route path="/" exact component={Home} />
-            <Route path="/add" component={MovieForm} />
-            <Route path="/edit/:id" component={MovieForm} />
-            <Route path="/movie/:id" component={MovieDetails} />
+            <Route path="/" Component={Home} />
+            <Route path="/add" Component={MovieForm} />
+            <Route path="/edit/:id" Component={MovieForm} />
+            <Route path="/movie/:id" Component={MovieDetails} />
+            <Route path="/rate-review/:id" element={<RateReviewForm />} />
         </Routes>
     );
 };

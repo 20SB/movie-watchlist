@@ -1,55 +1,257 @@
 // src/redux/moviesSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
     movies: [],
+    status: "idle", // for loading state management
+    error: null, // for error handling
 };
 
 const moviesSlice = createSlice({
     name: "movies",
     initialState,
     reducers: {
-        addMovie: (state, action) => {
+        addMovieStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        addMovieSuccess(state, action) {
+            state.status = "idle";
             state.movies.push(action.payload);
         },
-        editMovie: (state, action) => {
+        addMovieFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
+        },
+        editMovieStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        editMovieSuccess(state, action) {
+            state.status = "idle";
             const index = state.movies.findIndex(
                 (movie) => movie.id === action.payload.id
             );
-            state.movies[index] = action.payload;
+            if (index !== -1) {
+                state.movies[index] = action.payload;
+            }
         },
-        deleteMovie: (state, action) => {
+        editMovieFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
+        },
+        deleteMovieStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        deleteMovieSuccess(state, action) {
+            state.status = "idle";
             state.movies = state.movies.filter(
                 (movie) => movie.id !== action.payload.id
             );
         },
-        toggleWatched: (state, action) => {
-            const index = state.movies.findIndex(
-                (movie) => movie.id === action.payload.id
-            );
-            state.movies[index].watched = !state.movies[index].watched;
+        deleteMovieFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
         },
-        rateMovie: (state, action) => {
-            const index = state.movies.findIndex(
-                (movie) => movie.id === action.payload.id
-            );
-            state.movies[index].rating = action.payload.rating;
+        toggleWatchedStart(state) {
+            state.status = "loading";
+            state.error = null;
         },
-        reviewMovie: (state, action) => {
+        toggleWatchedSuccess(state, action) {
+            state.status = "idle";
             const index = state.movies.findIndex(
                 (movie) => movie.id === action.payload.id
             );
-            state.movies[index].review = action.payload.review;
+            if (index !== -1) {
+                state.movies[index].watched = !state.movies[index].watched;
+            }
+        },
+        toggleWatchedFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
+        },
+        rateMovieStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        rateMovieSuccess(state, action) {
+            state.status = "idle";
+            const index = state.movies.findIndex(
+                (movie) => movie.id === action.payload.id
+            );
+            if (index !== -1) {
+                state.movies[index].rating = action.payload.rating;
+            }
+        },
+        rateMovieFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
+        },
+        reviewMovieStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        reviewMovieSuccess(state, action) {
+            state.status = "idle";
+            const index = state.movies.findIndex(
+                (movie) => movie.id === action.payload.id
+            );
+            if (index !== -1) {
+                state.movies[index].review = action.payload.review;
+            }
+        },
+        reviewMovieFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
+        },
+        fetchMoviesStart(state) {
+            state.status = "loading";
+            state.error = null;
+        },
+        fetchMoviesSuccess(state, action) {
+            state.status = "idle";
+            state.movies = action.payload;
+        },
+        fetchMoviesFailure(state, action) {
+            state.status = "idle";
+            state.error = action.payload;
         },
     },
 });
 
 export const {
-    addMovie,
-    editMovie,
-    deleteMovie,
-    toggleWatched,
-    rateMovie,
-    reviewMovie,
+    addMovieStart,
+    addMovieSuccess,
+    addMovieFailure,
+    editMovieStart,
+    editMovieSuccess,
+    editMovieFailure,
+    deleteMovieStart,
+    deleteMovieSuccess,
+    deleteMovieFailure,
+    toggleWatchedStart,
+    toggleWatchedSuccess,
+    toggleWatchedFailure,
+    rateMovieStart,
+    rateMovieSuccess,
+    rateMovieFailure,
+    reviewMovieStart,
+    reviewMovieSuccess,
+    reviewMovieFailure,
+    fetchMoviesStart,
+    fetchMoviesSuccess,
+    fetchMoviesFailure,
 } = moviesSlice.actions;
+
 export default moviesSlice.reducer;
+
+// Thunk action creators for handling API requests
+export const addMovie = (movieData) => async (dispatch) => {
+    dispatch(addMovieStart());
+    try {
+        const response = await axios.post(
+            "https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json",
+            movieData
+        );
+        dispatch(addMovieSuccess({ ...movieData, id: response.data.name }));
+    } catch (error) {
+        dispatch(addMovieFailure(error.message));
+    }
+};
+
+export const editMovie = (movieData) => async (dispatch) => {
+    dispatch(editMovieStart());
+    try {
+        await axios.put(
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
+            movieData
+        );
+        dispatch(editMovieSuccess(movieData));
+    } catch (error) {
+        dispatch(editMovieFailure(error.message));
+    }
+};
+
+export const deleteMovie = (movieId) => async (dispatch) => {
+    dispatch(deleteMovieStart());
+    try {
+        await axios.delete(
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieId}.json`
+        );
+        dispatch(deleteMovieSuccess({ id: movieId }));
+    } catch (error) {
+        dispatch(deleteMovieFailure(error.message));
+    }
+};
+
+export const toggleWatched = (movieData) => async (dispatch) => {
+    dispatch(toggleWatchedStart());
+    try {
+        await axios.patch(
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
+            {
+                watched: !movieData.watched,
+            }
+        );
+        dispatch(
+            toggleWatchedSuccess({
+                id: movieData.id,
+                watched: !movieData.watched,
+            })
+        );
+    } catch (error) {
+        dispatch(toggleWatchedFailure(error.message));
+    }
+};
+
+export const rateMovie = (movieData) => async (dispatch) => {
+    dispatch(rateMovieStart());
+    try {
+        await axios.patch(
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
+            {
+                rating: movieData.rating,
+            }
+        );
+        dispatch(
+            rateMovieSuccess({ id: movieData.id, rating: movieData.rating })
+        );
+    } catch (error) {
+        dispatch(rateMovieFailure(error.message));
+    }
+};
+
+export const reviewMovie = (movieData) => async (dispatch) => {
+    dispatch(reviewMovieStart());
+    try {
+        await axios.patch(
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
+            {
+                review: movieData.review,
+            }
+        );
+        dispatch(
+            reviewMovieSuccess({ id: movieData.id, review: movieData.review })
+        );
+    } catch (error) {
+        dispatch(reviewMovieFailure(error.message));
+    }
+};
+
+export const fetchMovies = () => async (dispatch) => {
+    dispatch(fetchMoviesStart());
+    try {
+        const response = await axios.get(
+            "https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json"
+        );
+        const movies = Object.keys(response.data).map((key) => ({
+            id: key,
+            ...response.data[key],
+        }));
+        dispatch(fetchMoviesSuccess(movies));
+    } catch (error) {
+        dispatch(fetchMoviesFailure(error.message));
+    }
+};
