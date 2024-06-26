@@ -8,7 +8,7 @@ export const Navbar = () => {
         <Flex p={4} justify={"space-between"}>
             <Link to="/">
                 <Heading as="h3" size="lg">
-                    My Movie list
+                    My Movie Watchlist
                 </Heading>
             </Link>
             <Link to="/add">
