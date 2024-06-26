@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+<h1 align="center">My Movie Watchlist 🎥</h1> 
+<p align="center">
+📽️ This is an application that allows users to manage their movie watchlist by adding, updating, and deleting movies. It integrates with Firebase Realtime Database to store movie data and uses Redux for state management.
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of contents
 
-## Available Scripts
+-   [Features](#Features)
+-   [Folder Structure](#Folder-Structure)
+-   [Built with](#built-with)
+-   [Libraries](#Libraries)
+-   [Author](#author)
+-   [Setup](#Setup)
+-   [Run](#Run)
+-   [Deploy Link](#deployed-link)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+-   Add movie to watchlist
+-   Delete movie from watchlist
+-   Update movie details in watchlist
+-   View all movies in watchlist
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Folder Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<ul><li>Movie Watchlist<ul><li>public<ul><li>index.html</li><li>favicon.ico</li></ul></li><li>src<ul><li>actions<ul><li>movieActions.js</li></ul></li><li>components<ul><li>AddMovie.js</li><li>EditMovie.js</li><li>MovieList.js</li></ul></li><li>reducers<ul><li>movieReducer.js</li><li>rootReducer.js</li></ul></li><li>store<ul><li>store.js</li></ul></li><li>App.js</li><li>index.js</li></ul></li><li>.env</li><li>package-lock.json</li><li>package.json</li></ul></li></ul>
 
-### `npm test`
+### Built with
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   React
+-   Redux
+-   Firebase
+-   JavaScript
+-   HTML
+-   CSS
 
-### `npm run build`
+### Libraries:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   redux
+-   react-router-dom
+-   react-toastify
+-   chakra-ui
+-   axios
+-   firebase
+-   react-icons
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Author
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   Github - [Subha Biswal](https://github.com/20SB)
 
-### `npm run eject`
+## Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Run `npm install` to install required dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Run
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Run `npm start`, open localhost:3000 in browser to run the program or click on below deployed link
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Deployed Link
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-[My Movie Watchlist](https://movie-watchlist-eta.vercel.app/)
