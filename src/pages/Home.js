@@ -1,15 +1,29 @@
 // src/pages/Home.js
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Button, Text, VStack, HStack } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Text,
+    VStack,
+    HStack,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    IconButton,
+    useMediaQuery,
+} from "@chakra-ui/react";
 import { deleteMovie, toggleWatched } from "../redux/moviesSlice";
 import { Link } from "react-router-dom";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Home = () => {
     console.log("rendering home");
     const movies = useSelector((state) => state.movies.movies);
     console.log("movies", movies);
     const dispatch = useDispatch();
+    const [isMobile] = useMediaQuery("(max-width: 768px)");
 
     return (
         <Box p={4}>
@@ -21,31 +35,78 @@ const Home = () => {
                         borderWidth={1}
                         borderRadius={8}
                         width="100%"
+                        position={"relative"}
                     >
-                        <Text fontSize="xl">{movie.title}</Text>
-                        <Text>{movie.description}</Text>
-                        <Text>Release Year: {movie.releaseYear}</Text>
-                        <Text>Genre: {movie.genre}</Text>
-                        <HStack spacing={2}>
-                            <Button
-                                onClick={() =>
-                                    dispatch(toggleWatched({ id: movie.id }))
-                                }
-                            >
-                                {movie.watched ? "Unwatch" : "Watch"}
-                            </Button>
-                            <Link to={`/edit/${movie.id}`}>
-                                <Button>Edit</Button>
-                            </Link>
-                            <Button
-                                onClick={() => dispatch(deleteMovie(movie.id))}
-                            >
-                                Delete
-                            </Button>
-                            <Link to={`/movie/${movie.id}`}>
-                                <Button>Details</Button>
-                            </Link>
-                        </HStack>
+                        {isMobile && (
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    icon={<HamburgerIcon />}
+                                    position={"absolute"}
+                                    right={2}
+                                />
+                                <MenuList>
+                                    <MenuItem
+                                        onClick={() =>
+                                            dispatch(
+                                                toggleWatched({ id: movie.id })
+                                            )
+                                        }
+                                    >
+                                        {movie.watched
+                                            ? "Watched"
+                                            : "Not Watched"}
+                                    </MenuItem>
+                                    <Link to={`/edit/${movie.id}`}>
+                                        <MenuItem>Edit</MenuItem>
+                                    </Link>
+                                    <MenuItem
+                                        onClick={() =>
+                                            dispatch(deleteMovie(movie.id))
+                                        }
+                                    >
+                                        Delete
+                                    </MenuItem>
+                                    <Link to={`/movie/${movie.id}`}>
+                                        <MenuItem>Details</MenuItem>
+                                    </Link>
+                                </MenuList>
+                            </Menu>
+                        )}
+                        <Text fontSize="2xl">{movie.title}</Text>
+                        <Text fontSize="sm">{movie.genre}</Text>
+                        <Text pt={6} pb={2}>
+                            {movie.description}
+                        </Text>
+                        <Text fontSize="sm">
+                            Release Year: {movie.releaseYear}
+                        </Text>
+                        {!isMobile && (
+                            <HStack spacing={2} justifyContent={"flex-end"}>
+                                <Button
+                                    onClick={() =>
+                                        dispatch(
+                                            toggleWatched({ id: movie.id })
+                                        )
+                                    }
+                                >
+                                    {movie.watched ? "Watched" : "Not Watched"}
+                                </Button>
+                                <Link to={`/edit/${movie.id}`}>
+                                    <Button>Edit</Button>
+                                </Link>
+                                <Button
+                                    onClick={() =>
+                                        dispatch(deleteMovie(movie.id))
+                                    }
+                                >
+                                    Delete
+                                </Button>
+                                <Link to={`/movie/${movie.id}`}>
+                                    <Button>Details</Button>
+                                </Link>
+                            </HStack>
+                        )}
                     </Box>
                 ))}
             </VStack>

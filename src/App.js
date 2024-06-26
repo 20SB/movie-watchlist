@@ -8,6 +8,7 @@ import RateReviewForm from "./pages/RateReviewForm";
 import { useDispatch } from "react-redux";
 import { fetchMovies } from "./redux/moviesSlice";
 import { Navbar } from "./components/Navbar";
+import { Box, Flex } from "@chakra-ui/react";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -17,16 +18,21 @@ const App = () => {
     }, [dispatch]);
 
     return (
-        <>
+        <Flex direction={"column"} height={"100vh"}>
             <Navbar />
-            <Routes>
-                <Route path="/" Component={Home} />
-                <Route path="/add" Component={MovieForm} />
-                <Route path="/edit/:id" Component={MovieForm} />
-                <Route path="/movie/:id" Component={MovieDetails} />
-                <Route path="/rate-review/:id" element={<RateReviewForm />} />
-            </Routes>
-        </>
+            <Box flexGrow={1} height={"100%"} overflowY={"auto"}>
+                <Routes>
+                    <Route path="/" Component={Home} />
+                    <Route path="/add" Component={MovieForm} />
+                    <Route path="/edit/:id" Component={MovieForm} />
+                    <Route path="/movie/:id" Component={MovieDetails} />
+                    <Route
+                        path="/rate-review/:id"
+                        element={<RateReviewForm />}
+                    />
+                </Routes>
+            </Box>
+        </Flex>
     );
 };
 
