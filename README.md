@@ -1,4 +1,4 @@
-<h1 align="center">Movie Watchlist 🎥</h1> 
+<h1 align="center">My Movie Watchlist 🎥</h1> 
 <p align="center">
 📽️ This is an application that allows users to manage their movie watchlist by adding, updating, and deleting movies. It integrates with Firebase Realtime Database to store movie data and uses Redux for state management.
 </p>
@@ -58,4 +58,4 @@ Run `npm start`, open localhost:3000 in browser to run the program or click on b
 
 ## Deployed Link
 
--[Employee Review System](https://movie-watchlist-eta.vercel.app/)
+-[My Movie Watchlist](https://movie-watchlist-eta.vercel.app/)
