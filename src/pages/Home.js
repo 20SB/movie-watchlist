@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
     console.log("rendering home");
     const movies = useSelector((state) => state.movies.movies);
+    console.log("movies", movies);
     const dispatch = useDispatch();
 
     return (
@@ -37,9 +38,7 @@ const Home = () => {
                                 <Button>Edit</Button>
                             </Link>
                             <Button
-                                onClick={() =>
-                                    dispatch(deleteMovie({ id: movie.id }))
-                                }
+                                onClick={() => dispatch(deleteMovie(movie.id))}
                             >
                                 Delete
                             </Button>
@@ -49,9 +48,6 @@ const Home = () => {
                         </HStack>
                     </Box>
                 ))}
-                <Link to="/add">
-                    <Button>Add Movie</Button>
-                </Link>
             </VStack>
         </Box>
     );

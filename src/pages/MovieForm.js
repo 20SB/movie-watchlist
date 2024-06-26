@@ -29,11 +29,10 @@ const MovieForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (id) {
-            dispatch(editMovie({ id, title, description, releaseYear, genre }));
+            dispatch(editMovie({ title, description, releaseYear, genre }, id));
         } else {
             dispatch(
                 addMovie({
-                    id: Date.now().toString(),
                     title,
                     description,
                     releaseYear,

@@ -65,7 +65,7 @@ const moviesSlice = createSlice({
                 (movie) => movie.id === action.payload.id
             );
             if (index !== -1) {
-                state.movies[index].watched = !state.movies[index].watched;
+                state.movies[index].watched = action.payload.watched;
             }
         },
         toggleWatchedFailure(state, action) {
@@ -151,24 +151,33 @@ export default moviesSlice.reducer;
 export const addMovie = (movieData) => async (dispatch) => {
     dispatch(addMovieStart());
     try {
+        const timestamp = new Date().toISOString();
         const response = await axios.post(
             "https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json",
-            movieData
+            { ...movieData, createdAt: timestamp, updatedAt: timestamp }
         );
-        dispatch(addMovieSuccess({ ...movieData, id: response.data.name }));
+        dispatch(
+            addMovieSuccess({
+                ...movieData,
+                id: response.data.name,
+                createdAt: timestamp,
+                updatedAt: timestamp,
+            })
+        );
     } catch (error) {
         dispatch(addMovieFailure(error.message));
     }
 };
 
-export const editMovie = (movieData) => async (dispatch) => {
+export const editMovie = (movieData, movieId) => async (dispatch) => {
     dispatch(editMovieStart());
     try {
+        const timestamp = new Date().toISOString();
         await axios.put(
-            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
-            movieData
+            `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieId}.json`,
+            { ...movieData, updatedAt: timestamp }
         );
-        dispatch(editMovieSuccess(movieData));
+        dispatch(editMovieSuccess({ ...movieData, id: movieId }));
     } catch (error) {
         dispatch(editMovieFailure(error.message));
     }
@@ -189,11 +198,10 @@ export const deleteMovie = (movieId) => async (dispatch) => {
 export const toggleWatched = (movieData) => async (dispatch) => {
     dispatch(toggleWatchedStart());
     try {
+        const timestamp = new Date().toISOString();
         await axios.patch(
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
-            {
-                watched: !movieData.watched,
-            }
+            { watched: !movieData.watched, updatedAt: timestamp }
         );
         dispatch(
             toggleWatchedSuccess({
@@ -209,11 +217,10 @@ export const toggleWatched = (movieData) => async (dispatch) => {
 export const rateMovie = (movieData) => async (dispatch) => {
     dispatch(rateMovieStart());
     try {
+        const timestamp = new Date().toISOString();
         await axios.patch(
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
-            {
-                rating: movieData.rating,
-            }
+            { rating: movieData.rating, updatedAt: timestamp }
         );
         dispatch(
             rateMovieSuccess({ id: movieData.id, rating: movieData.rating })
@@ -226,11 +233,10 @@ export const rateMovie = (movieData) => async (dispatch) => {
 export const reviewMovie = (movieData) => async (dispatch) => {
     dispatch(reviewMovieStart());
     try {
+        const timestamp = new Date().toISOString();
         await axios.patch(
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
-            {
-                review: movieData.review,
-            }
+            { review: movieData.review, updatedAt: timestamp }
         );
         dispatch(
             reviewMovieSuccess({ id: movieData.id, review: movieData.review })
