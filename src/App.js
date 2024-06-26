@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { fetchMovies } from "./redux/moviesSlice";
 import { Navbar } from "./components/Navbar";
 import { Box, Flex } from "@chakra-ui/react";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const App = () => {
                     />
                 </Routes>
             </Box>
+            <ToastContainer />
         </Flex>
     );
 };

@@ -48,9 +48,7 @@ const Home = () => {
                                 <MenuList>
                                     <MenuItem
                                         onClick={() =>
-                                            dispatch(
-                                                toggleWatched({ id: movie.id })
-                                            )
+                                            dispatch(toggleWatched(movie))
                                         }
                                     >
                                         {movie.watched
@@ -85,9 +83,7 @@ const Home = () => {
                             <HStack spacing={2} justifyContent={"flex-end"}>
                                 <Button
                                     onClick={() =>
-                                        dispatch(
-                                            toggleWatched({ id: movie.id })
-                                        )
+                                        dispatch(toggleWatched(movie))
                                     }
                                 >
                                     {movie.watched ? "Watched" : "Not Watched"}

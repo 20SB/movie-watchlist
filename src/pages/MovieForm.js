@@ -7,6 +7,7 @@ import {
     Button,
     FormControl,
     FormLabel,
+    HStack,
     Input,
     Textarea,
     VStack,
@@ -44,6 +45,9 @@ const MovieForm = () => {
         navigate("/");
     };
 
+    const handleCancel = () => {
+        navigate(-1);
+    };
     return (
         <Box p={4}>
             <VStack spacing={4} as="form" onSubmit={handleSubmit}>
@@ -79,7 +83,12 @@ const MovieForm = () => {
                         required
                     />
                 </FormControl>
-                <Button type="submit">Save</Button>
+                <HStack spacing={4}>
+                    <Button variant="outline" onClick={handleCancel}>
+                        Cancel
+                    </Button>
+                    <Button type="submit">Save</Button>
+                </HStack>
             </VStack>
         </Box>
     );

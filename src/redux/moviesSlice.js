@@ -1,6 +1,8 @@
 // src/redux/moviesSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
     movies: [],
@@ -164,7 +166,9 @@ export const addMovie = (movieData) => async (dispatch) => {
                 updatedAt: timestamp,
             })
         );
+        toast.success("Movie added Successfully.");
     } catch (error) {
+        toast.error("Error adding movie.");
         dispatch(addMovieFailure(error.message));
     }
 };
@@ -177,8 +181,10 @@ export const editMovie = (movieData, movieId) => async (dispatch) => {
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieId}.json`,
             { ...movieData, updatedAt: timestamp }
         );
+        toast.success("Movie updated Successfully.");
         dispatch(editMovieSuccess({ ...movieData, id: movieId }));
     } catch (error) {
+        toast.error("Error updating movie.");
         dispatch(editMovieFailure(error.message));
     }
 };
@@ -189,19 +195,27 @@ export const deleteMovie = (movieId) => async (dispatch) => {
         await axios.delete(
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieId}.json`
         );
+        toast.success("Movie deleted Successfully.");
         dispatch(deleteMovieSuccess({ id: movieId }));
     } catch (error) {
+        toast.error("Error deleting movie.");
         dispatch(deleteMovieFailure(error.message));
     }
 };
 
 export const toggleWatched = (movieData) => async (dispatch) => {
     dispatch(toggleWatchedStart());
+    console.log(movieData);
     try {
         const timestamp = new Date().toISOString();
         await axios.patch(
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
             { watched: !movieData.watched, updatedAt: timestamp }
+        );
+        toast.success(
+            `Movie marked as ${
+                movieData.watched ? "unwatched" : "watched"
+            } Successfully.`
         );
         dispatch(
             toggleWatchedSuccess({
@@ -210,6 +224,7 @@ export const toggleWatched = (movieData) => async (dispatch) => {
             })
         );
     } catch (error) {
+        toast.error("Error updating movie watching status.");
         dispatch(toggleWatchedFailure(error.message));
     }
 };
@@ -222,10 +237,12 @@ export const rateMovie = (movieData) => async (dispatch) => {
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
             { rating: movieData.rating, updatedAt: timestamp }
         );
+        toast.success("Movie rated Successfully.");
         dispatch(
             rateMovieSuccess({ id: movieData.id, rating: movieData.rating })
         );
     } catch (error) {
+        toast.error("Error rating movie.");
         dispatch(rateMovieFailure(error.message));
     }
 };
@@ -238,10 +255,12 @@ export const reviewMovie = (movieData) => async (dispatch) => {
             `https://movie-watchlist-e5b47-default-rtdb.asia-southeast1.firebasedatabase.app/movies/${movieData.id}.json`,
             { review: movieData.review, updatedAt: timestamp }
         );
+        toast.success("Movie reviewed Successfully.");
         dispatch(
             reviewMovieSuccess({ id: movieData.id, review: movieData.review })
         );
     } catch (error) {
+        toast.error("Error reviewing movie.");
         dispatch(reviewMovieFailure(error.message));
     }
 };
@@ -256,8 +275,10 @@ export const fetchMovies = () => async (dispatch) => {
             id: key,
             ...response.data[key],
         }));
+        toast.success("Movies fetched Successfully.");
         dispatch(fetchMoviesSuccess(movies));
     } catch (error) {
+        toast.error("Error fetching movies.");
         dispatch(fetchMoviesFailure(error.message));
     }
 };
