@@ -6,7 +6,6 @@
 ## Table of contents
 
 -   [Features](#Features)
--   [Folder Structure](#Folder-Structure)
 -   [Built with](#built-with)
 -   [Libraries](#Libraries)
 -   [Author](#author)
@@ -20,10 +19,6 @@
 -   Delete movie from watchlist
 -   Update movie details in watchlist
 -   View all movies in watchlist
-
-## Folder Structure
-
-<ul><li>Movie Watchlist<ul><li>public<ul><li>index.html</li><li>favicon.ico</li></ul></li><li>src<ul><li>actions<ul><li>movieActions.js</li></ul></li><li>components<ul><li>AddMovie.js</li><li>EditMovie.js</li><li>MovieList.js</li></ul></li><li>reducers<ul><li>movieReducer.js</li><li>rootReducer.js</li></ul></li><li>store<ul><li>store.js</li></ul></li><li>App.js</li><li>index.js</li></ul></li><li>.env</li><li>package-lock.json</li><li>package.json</li></ul></li></ul>
 
 ### Built with
 
